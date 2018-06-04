@@ -13,11 +13,17 @@ app.delete()
 
 // no if else block. we can move things to a separate file
 app.get( '/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Hello World, user!');
 })
 
 app.get('/api/numbers', (req, res) => {
   res.send([1,2,3]);
 })
 
-app.listen(3000, () => console.log('listening on port 3000 using express'))
+app.get('/api/numbers/:id', (req,res) => {
+  res.send(req.params.id);
+})
+
+// PORT
+const port = process.env.PORT || 3000
+app.listen(port, () => console.log(`listening on port ${port} using express`))
