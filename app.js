@@ -31,8 +31,7 @@ app.get('/api/songs', (req, res) => {
 app.post('/api/songs', (req, res) => {
   //Joi is a class. package that can validate
   if (!req.body.name) {
-    res.status(400).send('Bad Request: Name is required.')
-    return
+    return res.status(400).send('Bad Request: Name is required.')
   }
   let song = {
     id: songs.length + 1,
@@ -53,14 +52,13 @@ app.put('/api/songs/:id', (req, res) => {
   //Logic from get
   let song = songs.find(song => song.id === Number(req.params.id) )
   if (!song) {
-    res.status(404).send("Song number not found. Try again")
+    return res.status(404).send("Song number not found. Try again")
   }
   //validate request
   //if invalid 400 bad request
   //logic from post
   if (!req.body.name) {
-    res.status(400).send('Bad Request: Name is required.')
-    return
+    return res.status(400).send('Bad Request: Name is required.')
   }
 
   //update song
@@ -69,17 +67,22 @@ app.put('/api/songs/:id', (req, res) => {
   res.send(song)
 })
 
-// app.delete('/api/songs/:id', (req, res) => {
-//   let song = songs.find(song => song.id === Number(req.params.id))
-//   if (!song) {
-//     res.status(404).send("Song number not found. Try a different number")
-//   } else {
-//     let song = {
-//       ...song,
-//       name: req.body.name
-//     }
-//   }
-// })
+app.delete('/api/songs/:id', (req, res) => {
+  //look up song
+  //404 if not found
+  //Logic from get
+  let song = songs.find(song => song.id === Number(req.params.id) )
+  if (!song) {
+    res.status(404).send("Song number not found. Try again")
+  }
+
+  //delete song
+  let index = songs.indexOf(song)
+  songs.splice(index, 1)
+  //return deleted song by convention
+
+  res.send(song)
+})
 
 // PORT
 const port = process.env.PORT || 3000
