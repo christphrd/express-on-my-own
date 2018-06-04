@@ -10,6 +10,8 @@ app.put()
 app.delete()
 */
 
+
+// no if else block. we can move things to a separate file
 app.get( '/', (req, res) => {
   res.send('Hello World!');
 })
